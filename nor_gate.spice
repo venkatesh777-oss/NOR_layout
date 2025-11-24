@@ -1,0 +1,31 @@
+* SPICE3 file created from nor_gate.ext - technology: scm
+** Dynamic NOR gate testbench
+
+.option scale=1u
+
+.model nfet nmos level=1
+.model pfet pmos level=1
+
+VDD vdd 0 5
+
+* Input pulses
+VA a 0 PULSE(0 5 0n 1n 1n 20n 40n)
+VB b 0 PULSE(0 5 10n 1n 1n 20n 40n)
+
+* PMOS network
+M1 out a   vdd vdd pfet W=10u L=3u
+M2 out b   vdd vdd pfet W=10u L=3u
+
+* NMOS network
+M3 out a   n1  0 nfet W=7u L=3u
+M4 n1  b   0   0 nfet W=7u L=3u
+
+.tran 1n 200n
+
+.control
+run
+plot v(a) v(b) v(out)
+.endc
+
+.end
+
